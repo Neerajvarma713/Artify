@@ -37,6 +37,9 @@ api.interceptors.response.use(
         window.location.href = '/login?expired=true';
       }
     }
+    if (error.response?.data?.message) {
+      error.message = error.response.data.message;
+    }
     return Promise.reject(error);
   }
 );

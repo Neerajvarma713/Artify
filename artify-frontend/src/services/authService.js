@@ -18,6 +18,15 @@ export const login = async (loginRequest) => {
   }
 };
 
+export const resetPassword = async (resetRequest) => {
+  try {
+    const response = await api.post('/auth/forgot-password', resetRequest);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getProfile = async () => {
   try {
     const response = await api.get('/auth/profile');

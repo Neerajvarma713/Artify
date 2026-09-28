@@ -107,7 +107,7 @@ export const Login = () => {
               <div className="form-group mb-4">
                 <div className="d-flex justify-content-between align-items-center mb-1">
                   <label className="text-uppercase text-xs font-weight-bold text-dark mb-0 letter-spacing-1">Password</label>
-                  <a href="#forgot" className="text-muted text-xs text-decoration-none hover-ajio-red">Forgot Password?</a>
+                  <Link to="/forgot-password" className="text-muted text-xs text-decoration-none hover-ajio-red">Forgot Password?</Link>
                 </div>
                 <input
                   type="password"

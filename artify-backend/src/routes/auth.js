@@ -40,7 +40,25 @@ router.post('/login', async (req,res,next) => {
   } catch(e){ next(e); }
 });
 
-router.get('/profile', authenticate, async (req,res,next) => {
+router.post('/forgot-password', async (req, res, next) => {
+  try {
+    const { email, newPassword } = req.body;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return res.status(400).json({ success: false, message: 'A valid email address is required', data: null });
+    }
+    if (!newPassword || newPassword.length < 8 || newPassword.length > 40) {
+      return res.status(400).json({ success: false, message: 'Password must be between 8 and 40 characters', data: null });
+    }
+
+    const user = await User.findOne({ where: { email: email.trim().toLowerCase() } });
+    if (!user) return res.status(404).json({ success: false, message: 'No account found with that email address', data: null });
+
+    await user.update({ password: await bcrypt.hash(newPassword, 10) });
+    return success(res, 'Password reset successfully. You can now sign in.', null);
+  } catch (e) { next(e); }
+});
+
+router.get('/profile', authenticate, async (req, res, next) => {
   try { return success(res,'Profile retrieved successfully',userResponse(req.user)); } catch(e){next(e);}
 });
 
